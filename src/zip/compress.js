@@ -5,7 +5,13 @@ import url from 'url'
 
 const _dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-const inputFile = createReadStream(path.join(_dirname, 'files', 'input.txt'))
-const outputFile = createWriteStream(path.join(_dirname, 'files', 'input.txt.gz')) 
+const compress = async () => {
 
-inputFile.pipe(createGzip()).pipe(outputFile)
+    const inputFile = createReadStream(path.join(_dirname, 'files', 'input.txt'))
+    const outputFile = createWriteStream(path.join(_dirname, 'files', 'input.txt.gz')) 
+
+    inputFile.pipe(createGzip()).pipe(outputFile)
+
+};
+
+await compress();

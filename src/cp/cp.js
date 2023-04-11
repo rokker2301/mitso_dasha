@@ -1,17 +1,15 @@
-import {spawn}   from 'child_process';
-import fs from 'fs/promises'
-import path from 'path';
-import url from 'url';
+import { fileURLToPath } from "url";
+import { fork } from "child_process";
+import path from "path";
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
+const _dirname = fileURLToPath(new URL(".", import.meta.url));
+const scriptFiles = path.join(__dirname, "files", "script.js");
+const args = process.argv.slice(2);
 
 const spawnChildProcess = async (args) => {
-    const script = await fs.readFile(path.join(__dirname, 'files', 'script.js'));
-    
-    
-  
+    fork(scriptFiles, args,{
+        stdio: [process.stdin, process.stdout, "ipc"],
+    });
 };
 
-// Put your arguments in function call to test this functionality
-spawnChildProcess(['arg1', 'arg2']);
+spawnChildProcess(args);
